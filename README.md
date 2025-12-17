@@ -13,3 +13,5 @@ Chrome extension that redirects visits to specific domains:
    - Toggle **Developer mode**.
    - Click **Load unpacked** and choose the repository root.
 3. Navigate to `x.com` or `reddit.com`; you will be redirected automatically (paths, queries, and fragments are preserved).
+
+Tested - 12/17/25.
