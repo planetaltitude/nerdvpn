@@ -4,8 +4,7 @@
   "version": "1.0.0",
   "description": "Redirects visits to X and Reddit to alternative domains.",
   "permissions": [
-    "webRequest",
-    "webRequestBlocking"
+    "declarativeNetRequest"
   ],
   "host_permissions": [
     "*://x.com/*",
@@ -13,7 +12,13 @@
     "*://reddit.com/*",
     "*://www.reddit.com/*"
   ],
-  "background": {
-    "service_worker": "src/background.js"
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "redirects",
+        "enabled": true,
+        "path": "rules/redirects.json"
+      }
+    ]
   }
 }
