@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "NerdVPN",
+  "version": "1.0.0",
+  "description": "Redirects visits to X and Reddit to alternative domains.",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking"
+  ],
+  "host_permissions": [
+    "*://x.com/*",
+    "*://www.x.com/*",
+    "*://reddit.com/*",
+    "*://www.reddit.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  }
+}
