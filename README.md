@@ -16,10 +16,10 @@ Chrome extension that redirects visits to specific domains:
 3. Navigate to `x.com`, `reddit.com`, or supported paywalled news sites; you will be redirected automatically (paths, queries, and fragments are preserved).
 4. To toggle redirects, open the background page at `chrome-extension://<extension-id>/background.html` (copy the extension ID from `chrome://extensions`) and use the checkboxes for X, Reddit, and archive.is redirects.
 
-Tested - 12/17/25.
+Tested - 12/19/25.
 
 ## Recommended companion extensions
 
 - **YTBlock** – strips YouTube recommendations and Shorts to keep the homepage and sidebar distraction-free.
 - **Newsfeed Eradicator** – hides algorithmic social feeds (Facebook, X, LinkedIn, YouTube, etc.) while leaving notifications and messaging accessible.
-- **Unpaywalled** – surfaces legal, open-access versions of academic papers and journalism when available.
+- **Unpaywall** – surfaces legal, open-access versions of academic papers and journalism when available.
