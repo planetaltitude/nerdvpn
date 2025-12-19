@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NerdVPN Redirect Controls</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      max-width: 640px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .card {
+      border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 6px color-mix(in srgb, currentColor 10%, transparent);
+      background: color-mix(in srgb, currentColor 2%, transparent);
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+    }
+
+    .toggle label {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .description {
+      font-size: 0.95rem;
+      margin: 8px 0 16px;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: color-mix(in srgb, currentColor 70%, transparent);
+      margin-top: 12px;
+    }
+
+    #status {
+      margin-top: 12px;
+      font-weight: 600;
+    }
+
+    #status.error {
+      color: #b00020;
+    }
+
+    #status.success {
+      color: #0b8457;
+    }
+  </style>
+</head>
+<body>
+  <h1>NerdVPN redirect controls</h1>
+  <div class="card">
+    <p class="description">Toggle redirects without reloading the extension.</p>
+    <div class="toggle">
+      <input type="checkbox" id="toggle-x" />
+      <label for="toggle-x">Redirect X (x.com → xcancel.com)</label>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="toggle-reddit" />
+      <label for="toggle-reddit">Redirect Reddit (reddit.com → reddit.nerdvpn.de)</label>
+    </div>
+    <p class="note">Changes apply immediately and persist between browser restarts.</p>
+    <div id="status" role="status" aria-live="polite"></div>
+  </div>
+  <script src="background.js"></script>
+</body>
+</html>
