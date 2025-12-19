@@ -15,6 +15,10 @@ function setStatus(message, type = '') {
 async function getEnabledRules() {
   try {
     const result = await chrome.declarativeNetRequest.getEnabledRulesets();
+    if (Array.isArray(result)) {
+      return new Set(result);
+    }
+
     const ids = result?.rulesetIds ?? result?.enabledRulesets ?? [];
     return new Set(ids);
   } catch (error) {
