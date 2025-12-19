@@ -3,6 +3,10 @@
   "name": "NerdVPN",
   "version": "1.0.0",
   "description": "Redirects visits to X and Reddit to alternative domains.",
+  "action": {
+    "default_popup": "background.html",
+    "default_title": "NerdVPN redirects"
+  },
   "permissions": [
     "declarativeNetRequest"
   ],
