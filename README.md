@@ -2,8 +2,8 @@
 
 Chrome extension that redirects visits to specific domains:
 
-- `x.com` → `xcancel.com`
-- `reddit.com` → `nerdvpn.reddit.de`
+- `x.com` → `xcancel.com` (allows logged out X browsing)
+- `reddit.com` → `nerdvpn.reddit.de` (makes Reddit work again on VPNs)
 
 ## Getting started
 
