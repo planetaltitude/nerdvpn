@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "NerdVPN",
-  "version": "1.0.0",
-  "description": "Redirects visits to X and Reddit to alternative domains.",
+  "version": "1.1.0",
+  "description": "Redirects visits to X, Reddit, and paywalled news sites to alternative domains.",
   "action": {
     "default_popup": "background.html",
     "default_title": "NerdVPN redirects"
@@ -14,7 +14,13 @@
     "*://x.com/*",
     "*://www.x.com/*",
     "*://reddit.com/*",
-    "*://www.reddit.com/*"
+    "*://www.reddit.com/*",
+    "*://*.nytimes.com/*",
+    "*://*.washingtonpost.com/*",
+    "*://*.wsj.com/*",
+    "*://*.ft.com/*",
+    "*://*.economist.com/*",
+    "*://*.bloomberg.com/*"
   ],
   "declarative_net_request": {
     "rule_resources": [
@@ -27,6 +33,11 @@
         "id": "redditRedirects",
         "enabled": true,
         "path": "rules/reddit_redirects.json"
+      },
+      {
+        "id": "paywallArchiveRedirects",
+        "enabled": true,
+        "path": "rules/paywall_archive_redirects.json"
       }
     ]
   }
