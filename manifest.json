@@ -15,9 +15,14 @@
   "declarative_net_request": {
     "rule_resources": [
       {
-        "id": "redirects",
+        "id": "xRedirects",
         "enabled": true,
-        "path": "rules/redirects.json"
+        "path": "rules/x_redirects.json"
+      },
+      {
+        "id": "redditRedirects",
+        "enabled": true,
+        "path": "rules/reddit_redirects.json"
       }
     ]
   }

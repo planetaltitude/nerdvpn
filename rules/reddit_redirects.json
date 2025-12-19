@@ -1,22 +1,5 @@
 [
   {
-    "id": 1,
-    "priority": 1,
-    "action": {
-      "type": "redirect",
-      "redirect": {
-        "transform": {
-          "scheme": "https",
-          "host": "xcancel.com"
-        }
-      }
-    },
-    "condition": {
-      "resourceTypes": ["main_frame", "sub_frame"],
-      "requestDomains": ["x.com", "www.x.com"]
-    }
-  },
-  {
     "id": 2,
     "priority": 1,
     "action": {
