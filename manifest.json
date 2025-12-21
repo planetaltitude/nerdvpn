@@ -8,19 +8,11 @@
     "default_title": "NerdVPN redirects"
   },
   "permissions": [
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "storage"
   ],
   "host_permissions": [
-    "*://x.com/*",
-    "*://www.x.com/*",
-    "*://reddit.com/*",
-    "*://www.reddit.com/*",
-    "*://*.nytimes.com/*",
-    "*://*.washingtonpost.com/*",
-    "*://*.wsj.com/*",
-    "*://*.ft.com/*",
-    "*://*.economist.com/*",
-    "*://*.bloomberg.com/*"
+    "*://*/*"
   ],
   "declarative_net_request": {
     "rule_resources": [
