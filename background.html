@@ -106,6 +106,26 @@
     #status.success {
       color: #0b8457;
     }
+
+    .site-list {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: disc;
+      padding-left: 20px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .site-list-title {
+      font-weight: 700;
+      margin: 16px 0 6px;
+    }
+
+    .empty-text {
+      margin: 8px 0 0;
+      font-size: 0.95rem;
+      color: color-mix(in srgb, currentColor 65%, transparent);
+    }
   </style>
 </head>
 <body>
@@ -136,6 +156,11 @@
       <button type="submit">Add</button>
     </form>
     <p class="note">Changes apply immediately and persist between browser restarts.</p>
+    <p class="site-list-title">Default paywalled sites</p>
+    <ul id="default-paywall-sites" class="site-list" aria-live="polite"></ul>
+    <p class="site-list-title">Your added sites</p>
+    <ul id="custom-paywall-sites" class="site-list" aria-live="polite"></ul>
+    <p id="custom-paywall-empty" class="empty-text" aria-live="polite">No additional sites added yet.</p>
     <div id="status" role="status" aria-live="polite"></div>
   </div>
   <script src="background.js"></script>
