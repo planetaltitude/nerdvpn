@@ -6,6 +6,15 @@ const RULESET_IDS = {
 
 const DYNAMIC_RULE_ID_START = 10000;
 const STORAGE_KEY_PAYWALL_HOSTS = 'userPaywallHosts';
+const DEFAULT_PAYWALL_SITES = [
+  'nytimes.com',
+  'washingtonpost.com',
+  'wsj.com',
+  'ft.com',
+  'economist.com',
+  'bloomberg.com',
+  'wired.com',
+];
 
 const checkboxX = document.getElementById('toggle-x');
 const checkboxReddit = document.getElementById('toggle-reddit');
@@ -13,6 +22,9 @@ const checkboxArchive = document.getElementById('toggle-archive');
 const paywallForm = document.getElementById('add-paywall-form');
 const paywallInput = document.getElementById('paywall-host');
 const statusEl = document.getElementById('status');
+const defaultSitesList = document.getElementById('default-paywall-sites');
+const customSitesList = document.getElementById('custom-paywall-sites');
+const customSitesEmpty = document.getElementById('custom-paywall-empty');
 
 function setStatus(message, type = '') {
   statusEl.textContent = message;
@@ -155,6 +167,35 @@ async function updateRule(ruleId, enabled) {
   }
 }
 
+function renderList(listEl, items) {
+  listEl.innerHTML = '';
+  items.forEach((item) => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    listEl.appendChild(li);
+  });
+}
+
+function renderPaywallSites(hosts = []) {
+  renderList(defaultSitesList, DEFAULT_PAYWALL_SITES);
+
+  const sortedHosts = [...hosts].sort((a, b) => a.localeCompare(b));
+  if (sortedHosts.length > 0) {
+    renderList(customSitesList, sortedHosts);
+    customSitesList.hidden = false;
+    customSitesEmpty.hidden = true;
+  } else {
+    customSitesList.hidden = true;
+    customSitesEmpty.hidden = false;
+  }
+}
+
+async function loadAndRenderStoredHosts() {
+  const hosts = await getStoredHosts();
+  renderPaywallSites(hosts);
+  return hosts;
+}
+
 checkboxX.addEventListener('change', (event) => {
   updateRule(RULESET_IDS.x, event.target.checked);
 });
@@ -192,10 +233,14 @@ paywallForm.addEventListener('submit', async (event) => {
   await saveStoredHosts(updatedHosts);
   paywallInput.value = '';
   setStatus(`Added ${host} to paywall redirects.`, 'success');
+  renderPaywallSites(updatedHosts);
 
   if (checkboxArchive.checked) {
     await syncDynamicRules(true);
   }
 });
 
-syncToggles().then(() => setStatus('Loaded current redirect settings.'));
+renderPaywallSites([]);
+syncToggles()
+  .then(() => loadAndRenderStoredHosts())
+  .then(() => setStatus('Loaded current redirect settings.'));
