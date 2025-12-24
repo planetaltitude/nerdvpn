@@ -181,12 +181,41 @@ function renderPaywallSites(hosts = []) {
 
   const sortedHosts = [...hosts].sort((a, b) => a.localeCompare(b));
   if (sortedHosts.length > 0) {
-    renderList(customSitesList, sortedHosts);
+    customSitesList.innerHTML = '';
+    sortedHosts.forEach((host) => {
+      const li = document.createElement('li');
+      const label = document.createElement('span');
+      label.className = 'site-label';
+      label.textContent = host;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'remove-button';
+      removeBtn.setAttribute('aria-label', `Remove ${host} from paywall redirects`);
+      removeBtn.textContent = '×';
+      removeBtn.addEventListener('click', () => removeCustomHost(host));
+
+      li.append(label, removeBtn);
+      customSitesList.appendChild(li);
+    });
+
     customSitesList.hidden = false;
     customSitesEmpty.hidden = true;
   } else {
     customSitesList.hidden = true;
     customSitesEmpty.hidden = false;
+  }
+}
+
+async function removeCustomHost(host) {
+  const hosts = await getStoredHosts();
+  const updatedHosts = hosts.filter((item) => item !== host);
+  await saveStoredHosts(updatedHosts);
+  renderPaywallSites(updatedHosts);
+  setStatus(`Removed ${host} from paywall redirects.`, 'success');
+
+  if (checkboxArchive.checked) {
+    await syncDynamicRules(true);
   }
 }
 
