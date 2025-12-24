@@ -22,9 +22,7 @@ const checkboxArchive = document.getElementById('toggle-archive');
 const paywallForm = document.getElementById('add-paywall-form');
 const paywallInput = document.getElementById('paywall-host');
 const statusEl = document.getElementById('status');
-const defaultSitesList = document.getElementById('default-paywall-sites');
-const customSitesList = document.getElementById('custom-paywall-sites');
-const customSitesEmpty = document.getElementById('custom-paywall-empty');
+const paywallSitesList = document.getElementById('paywall-sites');
 
 function setStatus(message, type = '') {
   statusEl.textContent = message;
@@ -76,11 +74,19 @@ function buildDynamicRule(host, index) {
 async function getStoredHosts() {
   try {
     const result = await chrome.storage.sync.get(STORAGE_KEY_PAYWALL_HOSTS);
+    const hasStoredValue = Object.prototype.hasOwnProperty.call(result, STORAGE_KEY_PAYWALL_HOSTS);
     const stored = result?.[STORAGE_KEY_PAYWALL_HOSTS];
+
     if (Array.isArray(stored)) {
       return stored;
     }
-    return [];
+
+    if (hasStoredValue) {
+      return [];
+    }
+
+    await saveStoredHosts(DEFAULT_PAYWALL_SITES);
+    return DEFAULT_PAYWALL_SITES;
   } catch (error) {
     setStatus(`Unable to read saved sites: ${error.message}`, 'error');
     return [];
@@ -167,47 +173,31 @@ async function updateRule(ruleId, enabled) {
   }
 }
 
-function renderList(listEl, items) {
-  listEl.innerHTML = '';
-  items.forEach((item) => {
+function renderPaywallSites(hosts = []) {
+  const sortedHosts = [...hosts].sort((a, b) => a.localeCompare(b));
+
+  paywallSitesList.innerHTML = '';
+
+  sortedHosts.forEach((host) => {
     const li = document.createElement('li');
-    li.textContent = item;
-    listEl.appendChild(li);
+    const label = document.createElement('span');
+    label.className = 'site-label';
+    label.textContent = host;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'remove-button';
+    removeBtn.textContent = '×';
+
+    removeBtn.setAttribute('aria-label', `Remove ${host} from paywall redirects`);
+    removeBtn.addEventListener('click', () => removeHost(host));
+
+    li.append(label, removeBtn);
+    paywallSitesList.appendChild(li);
   });
 }
 
-function renderPaywallSites(hosts = []) {
-  renderList(defaultSitesList, DEFAULT_PAYWALL_SITES);
-
-  const sortedHosts = [...hosts].sort((a, b) => a.localeCompare(b));
-  if (sortedHosts.length > 0) {
-    customSitesList.innerHTML = '';
-    sortedHosts.forEach((host) => {
-      const li = document.createElement('li');
-      const label = document.createElement('span');
-      label.className = 'site-label';
-      label.textContent = host;
-
-      const removeBtn = document.createElement('button');
-      removeBtn.type = 'button';
-      removeBtn.className = 'remove-button';
-      removeBtn.setAttribute('aria-label', `Remove ${host} from paywall redirects`);
-      removeBtn.textContent = '×';
-      removeBtn.addEventListener('click', () => removeCustomHost(host));
-
-      li.append(label, removeBtn);
-      customSitesList.appendChild(li);
-    });
-
-    customSitesList.hidden = false;
-    customSitesEmpty.hidden = true;
-  } else {
-    customSitesList.hidden = true;
-    customSitesEmpty.hidden = false;
-  }
-}
-
-async function removeCustomHost(host) {
+async function removeHost(host) {
   const hosts = await getStoredHosts();
   const updatedHosts = hosts.filter((item) => item !== host);
   await saveStoredHosts(updatedHosts);
@@ -222,7 +212,7 @@ async function removeCustomHost(host) {
 async function loadAndRenderStoredHosts() {
   const hosts = await getStoredHosts();
   renderPaywallSites(hosts);
-  return hosts;
+  return { hosts };
 }
 
 checkboxX.addEventListener('change', (event) => {
@@ -252,6 +242,7 @@ paywallForm.addEventListener('submit', async (event) => {
   }
 
   const hosts = await getStoredHosts();
+
   if (hosts.includes(host)) {
     setStatus(`${host} is already redirected to archive.is.`, 'success');
     paywallInput.value = '';
