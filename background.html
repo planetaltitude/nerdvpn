@@ -131,12 +131,6 @@
       margin: 16px 0 6px;
     }
 
-    .empty-text {
-      margin: 8px 0 0;
-      font-size: 0.95rem;
-      color: color-mix(in srgb, currentColor 65%, transparent);
-    }
-
     .remove-button {
       border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
       background: color-mix(in srgb, currentColor 6%, transparent);
@@ -180,11 +174,8 @@
       <button type="submit">Add</button>
     </form>
     <p class="note">Changes apply immediately and persist between browser restarts.</p>
-    <p class="site-list-title">Default paywalled sites</p>
-    <ul id="default-paywall-sites" class="site-list" aria-live="polite"></ul>
-    <p class="site-list-title">Your added sites</p>
-    <ul id="custom-paywall-sites" class="site-list" aria-live="polite"></ul>
-    <p id="custom-paywall-empty" class="empty-text" aria-live="polite">No additional sites added yet.</p>
+    <p class="site-list-title">Paywalled sites redirected to archive.is</p>
+    <ul id="paywall-sites" class="site-list" aria-live="polite"></ul>
     <div id="status" role="status" aria-live="polite"></div>
   </div>
   <script src="background.js"></script>
